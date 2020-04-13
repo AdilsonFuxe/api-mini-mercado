@@ -8,6 +8,7 @@ const UserController = require('./controllers/UserController');
 const BusinessController = require('./controllers/BusinessController');
 const ProductController = require('./controllers/ProductController');
 const SessionController = require('./controllers/SessionController');
+const ProfileController = require('./controllers/ProfileController');
 
 routes.post('/categories', CategoryController.create);
 routes.get('/categories', CategoryController.index);
@@ -40,6 +41,8 @@ routes.put('/products/:id', ProductController.update);
 routes.delete('/products/:id', ProductController.delete);
 
 routes.post('/session', SessionController.create);
+
+routes.get('/profile/:id', ProfileController.index);
 
 
 module.exports = routes;
