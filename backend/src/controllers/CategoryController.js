@@ -52,5 +52,17 @@ module.exports = {
             .where('id', id)
             .update({state:false});
         return response.send();
+    },
+
+    async show(request, response){
+        const {id} = request.params;
+
+        const category = await connection('category')
+                                .where('id',id)
+                                .where('state',true)
+                                .select('*')
+                                .first();
+        return response.send(category);
     }
+
 }

@@ -14,15 +14,21 @@ module.exports = {
     },
     async index(request, response){
 
-        const [count] = await connection('subcategory').where('state',1).count();
+        try{
+            const [count] = await connection('subcategory').where('state',1).count();
 
-        const subcategories = await connection('subcategory')
-                                    .where('state',1)
-                                    .select('*');
-
-        response.header('X-Total-Count',count['count(*)']);
-
-        return response.send(subcategories);
+            const subcategories = await connection('subcategory')
+                                        .where('state',1)
+                                        .select('*');
+    
+            response.header('X-Total-Count',count['count(*)']);
+    
+            return response.send(subcategories);
+        }
+        catch(err){
+            console.log(err);
+            return response.status(404).send({erro: 'Ouve algum problema'});
+        }
     },
     async update(request, response){
         const {id} = request.params;
@@ -43,5 +49,16 @@ module.exports = {
         const {id} = request.params;
         await connection('subcategory').where('id',id).update({state:false});
         return response.send()
+    },
+
+    async show(request, response){
+        const {id} = request.params;
+
+        const subcategory = await connection('subcategory')
+                                .where('id',id)
+                                .where('state',true)
+                                .select('*')
+                                .first();
+        return response.send(subcategory);
     }
 }

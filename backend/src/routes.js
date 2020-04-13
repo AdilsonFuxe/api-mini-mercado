@@ -11,26 +11,31 @@ const SessionController = require('./controllers/SessionController');
 
 routes.post('/categories', CategoryController.create);
 routes.get('/categories', CategoryController.index);
+routes.get('/categories/:id', CategoryController.show);
 routes.put('/categories/:id', CategoryController.update);
 routes.delete('/categories/:id', CategoryController.delete);
 
 routes.post('/subcategories', SubCategoryController.create);
 routes.get('/subcategories', SubCategoryController.index);
+routes.get('/subcategories/:id', SubCategoryController.show);
 routes.put('/subcategories/:id', SubCategoryController.update);
 routes.delete('/subcategories/:id', SubCategoryController.delete);
 
 routes.post('/users', UserController.create);
 routes.get('/users', UserController.index);
+routes.get('/users/:id', UserController.show);
 routes.put('/users/:id', UserController.update);
 routes.delete('/users/:id', UserController.delete);
 
 routes.post('/businesses', BusinessController.create);
 routes.get('/businesses', BusinessController.index);
+routes.get('/businesses/:id', BusinessController.show);
 routes.put('/businesses/:id', BusinessController.update);
 routes.delete('/businesses/:id', BusinessController.delete);
 
 routes.post('/products', ProductController.create);
 routes.get('/products', ProductController.index);
+routes.get('/products/:id', ProductController.show);
 routes.put('/products/:id', ProductController.update);
 routes.delete('/products/:id', ProductController.delete);
 

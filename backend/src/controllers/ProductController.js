@@ -34,48 +34,57 @@ module.exports={
         return response.send(products);
     },
     async update(request, response){
-
-        const {name, description, count, unit_price, validate_date, subcategoryID, businessID} = request.body;
-        const authorization = request.headers.authorization;
         const {id} = request.params;
-
-        const data = await connection('business')
-                                .where('id',businessID)
-                                .select('userID')
+        const authorization = request.headers.authorization;
+        const {name, description, count, unit_price, validate_date, subcategoryID} = request.body;
+        const {userID} = await connection('product')
+                                .join('business', 'business.id', '=', 'product.businessID')
+                                .where('product.id',id)
+                                .select('business.userID')
                                 .first();
-        if(data['userID'] !== authorization)
-            return response.status(404).send({error:'operation not permited'});
-
         
+        if(authorization !== userID)
+            return response.status(404).send({error:'operation not permited'});
         await connection('product')
-                .where('id',id)
-                .update({
-                    name,
-                    description,
-                    count,
-                    unit_price,
-                    validate_date,
-                    subcategoryID,
-                    businessID,
-                });
-
-        return response.status(201).send();
+            .update({
+                name,
+                description,
+                count,
+                unit_price,
+                validate_date,
+                subcategoryID,
+                updated_at: new Date()
+            })
+            .where('id', id);
+        return response.status(204).send();
     },
+
     async delete(request, response){
-        const {businessID} = request.body;
         const authorization = request.headers.authorization;
         const {id} = request.params;
-        const data = await connection('business')
-                                .where('id',businessID)
-                                .select('userID')
-                                .first();
-        if(data['userID'] !== authorization)
+
+        const {userID} = await connection('product')
+                        .join('business', 'business.id', '=', 'product.businessID')
+                        .where('product.id',id)
+                        .select('business.userID')
+                        .first();
+
+        if(userID !== authorization)
             return response.status(404).send({error:'operation not permited'});
-        
         await connection('product')
             .where('id',id)
             .update('state',false)
-
         return response.status(204).send();
+    },
+
+    async show(request, response){
+        const {id} = request.params;
+
+        const product = await connection('product')
+                                .where('id',id)
+                                .where('state',true)
+                                .select('*')
+                                .first();
+        return response.send(product);
     }
 }

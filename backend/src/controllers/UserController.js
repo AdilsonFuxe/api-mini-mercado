@@ -58,5 +58,16 @@ module.exports = {
                 .update({state:false});
 
         return response.send();
+    },
+
+    async show(request, response){
+        const {id} = request.params;
+
+        const user = await connection('user')
+                                .where('id',id)
+                                .where('state',true)
+                                .select('*')
+                                .first();
+        return response.send(user);
     }
 }

@@ -56,5 +56,16 @@ module.exports={
             return response.status(401).send({erro: 'Operation not permited'});
 
         return response.status(204).send();
+    },
+
+    async show(request, response){
+        const {id} = request.params;
+
+        const business = await connection('business')
+                                .where('id',id)
+                                .where('state',true)
+                                .select('*')
+                                .first();
+        return response.send(business);
     }
 }
