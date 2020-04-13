@@ -43,6 +43,7 @@ routes.delete('/products/:id', ProductController.delete);
 routes.post('/session', SessionController.create);
 
 routes.get('/profile/:id', ProfileController.index);
+routes.get('/profile/:userID/:businessID/', ProfileController.show);
 
 
 module.exports = routes;
