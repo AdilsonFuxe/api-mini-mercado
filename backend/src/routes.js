@@ -14,6 +14,7 @@ const authMiddleWare = require('../src/middlewares/auth');
 
 
 routes.use('/businesses',authMiddleWare);
+routes.use('/products', authMiddleWare);
 
 
 routes.post('/categories', CategoryController.create);
