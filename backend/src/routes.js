@@ -10,6 +10,12 @@ const ProductController = require('./controllers/ProductController');
 const SessionController = require('./controllers/SessionController');
 const ProfileController = require('./controllers/ProfileController');
 
+const authMiddleWare = require('../src/middlewares/auth');
+
+
+routes.use('/businesses',authMiddleWare);
+
+
 routes.post('/categories', CategoryController.create);
 routes.get('/categories', CategoryController.index);
 routes.get('/categories/:id', CategoryController.show);
@@ -23,6 +29,7 @@ routes.put('/subcategories/:id', SubCategoryController.update);
 routes.delete('/subcategories/:id', SubCategoryController.delete);
 
 routes.post('/users', UserController.create);
+routes.post('/users/auth', UserController.authenticate);
 routes.get('/users', UserController.index);
 routes.get('/users/:id', UserController.show);
 routes.put('/users/:id', UserController.update);
