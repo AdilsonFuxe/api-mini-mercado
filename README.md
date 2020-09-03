@@ -1,4 +1,4 @@
-# Meu-Negocio
+# Mini mercado
 
 
 executar npm instal no backend
